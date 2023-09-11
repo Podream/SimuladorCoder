@@ -8,8 +8,8 @@ let dañoEnemigo = 0;
 let curar = 0;
 
 function ingresarJuego (){
-    confirm("Bienvenido a la Dungeon");
     document.body.innerHTML = "";
+    confirm("Bienvenido a la Dungeon");
     ingresarNombre();
 }
 
@@ -37,15 +37,13 @@ function golpeHeroe (MIN){
     return dañoHeroe;
 }
 
-
-
 function golpeEnemigo (MIN,POW){
     dañoEnemigo = Math.ceil((Math.random()*POW) + MIN );
     return dañoEnemigo;
 }
 
-
 function huirPelea(){
+    cargarImagen("GameOver.jpg");
     console.log("Gracias por jugar");
     ingresarJuego();
 }
@@ -54,17 +52,16 @@ function perdiste (){
     console.log("Perdiste");
     console.log("Gracias por participar");
     document.body.innerHTML = "";
-        ingresarJuego();
+    ingresarJuego();
 }
 
 function cargarImagen (src){
     document.body.innerHTML = "";
     let imagen = document.createElement("img");
-    imagen.src="assets/"+src;
+    imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/" + src;
     imagen.id = "imagen";
     document.body.appendChild(imagen);
 }
-
 
 
 function peleaEsqueleto (){
@@ -100,8 +97,6 @@ function peleaEsqueleto (){
 function peleaMago (){
         cargarImagen("Room2.jpg");
     while ((vidaHeroe > 0)&& (vidaMago>0)){
-        
-        //document.write('<div class="room"><img class="imagen" src="assets/Room2.jpg"/></div>');
         alert("Atacar al Mago");
         if(vidaHeroe<=0){
             vidaHeroe=0;
@@ -112,7 +107,7 @@ function peleaMago (){
         if (vidaMago <0){
             vidaMago = 0;
         }else{
-            golpeEnemigo(15,40);
+            golpeEnemigo(17,42);
             vidaHeroe-= dañoEnemigo;
         }
             mostrarVidaHeroe();
@@ -162,7 +157,6 @@ function peleaJefe(){
                 
             break;
         case "2": 
-                
                 if (curar <= 2){
                 vidaHeroe += 150;
                 curar+=1;
