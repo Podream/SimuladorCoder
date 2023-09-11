@@ -9,6 +9,7 @@ let curar = 0;
 
 function ingresarJuego (){
     confirm("Bienvenido a la Dungeon");
+    document.body.innerHTML = "";
     ingresarNombre();
 }
 
@@ -52,12 +53,13 @@ function huirPelea(){
 function perdiste (){
     console.log("Perdiste");
     console.log("Gracias por participar");
+    document.body.innerHTML = "";
         ingresarJuego();
 }
 
 function cargarImagen (src){
+    document.body.innerHTML = "";
     let imagen = document.createElement("img");
-    // imagen.src="assets/"+src;
     imagen.src="assets/"+src;
     imagen.id = "imagen";
     document.body.appendChild(imagen);
@@ -66,10 +68,8 @@ function cargarImagen (src){
 
 
 function peleaEsqueleto (){
-    cargarImagen("room1.jpg");
+        cargarImagen("room1.jpg");
     while ((vidaHeroe > 0)&& (vidaEsqueleto>0)){
-        
-        //document.write('<div class="room"><img class="imagen" src="assets/room1.jpg"/></div>');
         alert("Atacar al Esqueleto");
         if(vidaHeroe<=0){
             vidaHeroe=0;
@@ -98,8 +98,10 @@ function peleaEsqueleto (){
 } 
 
 function peleaMago (){
+        cargarImagen("Room2.jpg");
     while ((vidaHeroe > 0)&& (vidaMago>0)){
-        document.write('<div class="room"><img class="imagen" src="assets/Room2.jpg"/></div>');
+        
+        //document.write('<div class="room"><img class="imagen" src="assets/Room2.jpg"/></div>');
         alert("Atacar al Mago");
         if(vidaHeroe<=0){
             vidaHeroe=0;
@@ -129,8 +131,8 @@ function peleaMago (){
 }
 
 function peleaJefe(){
+        cargarImagen("BossRoom.jpg");
     while(vidaJefe>0 && vidaHeroe>0){
-        document.write('<div class="room"><img class="imagen" src="assets/BossRoom.jpg"/></div>');
         console.log(" ---  ACCIONES  --- ");
         console.log("1: Golpear al Jefe");
         console.log("2: Curarte vida");
@@ -168,7 +170,6 @@ function peleaJefe(){
                 }else{
                     console.log("Ya no tienes mas pociones")
                 }
-                document.write('<div class="room"><img class="imagen" src="assets/BossRoom.jpg"/></div>');
                 peleaJefe();
             break;
         case "3":
@@ -183,16 +184,16 @@ function peleaJefe(){
     if (vidaJefe <=0){
         console.log("Bieh hecho " + nombre +", venciste al Jefe");
         console.log("Gracias por participar");
-        document.write('<div class="room"><img src="assets/win.jpg"/></div>');
-    }else{
-        document.write('<div class="room"><img class="imagen" src="assets/GameOver.jpg"/></div>');
+        cargarImagen("win.jpg");
+        }else{
+        cargarImagen("GameOver.jpg");
         perdiste();
     }
 }
 
 ingresarJuego();
 
-/* document.write("Hola, mundo!"); */
+
 
 
 
