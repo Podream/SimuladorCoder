@@ -55,6 +55,7 @@ function huirPelea(){
 }
 
 function perdiste (){
+    cargarImagen("GameOver.jpg");
     alert("Perdiste");
     alert("Gracias por participar");
     document.body.innerHTML = "";
@@ -124,9 +125,9 @@ function peleaDng (){
 function peleaEnemigo (enemigo){
         
         cargarImgPelea(enemigo.nombre);
-        setTimeout( ()=>{
-        alert(nombre +", un " + enemigo.nombre +" se cruza en tu camino")},1000);
-        
+        console.log(nombre +", un " + enemigo.nombre +" se cruza en tu camino");
+        alert(nombre +", un " + enemigo.nombre +" se cruza en tu camino");
+
     // Espera 1 segundo antes de mostrar el alert para cargar la imagen
     //setTimeout( ()=>{
         while ((heroe.vida > 0)&& (enemigo.vida>0)){
@@ -156,9 +157,9 @@ function peleaEnemigo (enemigo){
         }//,1000);
 //} 
 
-function peleaJefe(enemigo){
-    console.log("Encuentras la sala del "+ enemigo.nombre +" final");
-        cargarImgPelea(enemigo.nombre);
+function peleaJefe(nombre){
+        console.log("Encuentras la sala del "+ jefe.nombre +" final");
+        cargarImgPelea(jefe.nombre);
     // Espera 1 segundo antes de mostrar el alert para cargar la imagen
     setTimeout( ()=>{    
         while(jefe.vida > 0 && heroe.vida > 0){
@@ -214,7 +215,7 @@ function peleaJefe(enemigo){
             console.log("Gracias por participar");
             cargarImagen("win.jpg");
             }else{
-            cargarImagen("GameOver.jpg");
+            
             perdiste();
         }
     },1000);
