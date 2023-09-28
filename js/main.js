@@ -161,9 +161,16 @@ async function peleaEnemigo(enemigo) {
 }
 
 
-function peleaJefe(nombre){
-        console.log("Encuentras la sala del "+ jefe.nombre +" final");
+async function peleaJefe(nombre){
+        await console.log("Encuentras la sala del "+ jefe.nombre +" final");
         cargarImgPelea(jefe.nombre);   
+
+        //Promise para que cargue la imagen
+        await new Promise (resolve => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    })
         while(jefe.vida > 0 && heroe.vida > 0){
             console.log(" ---  ACCIONES  --- ");
             console.log("1: Golpear al Jefe");
