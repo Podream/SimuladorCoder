@@ -112,56 +112,58 @@ function cargarDng (){
     enemigos.push(jefe);
 }
 
-function peleaDng (){
+async function peleaDng() {
     cargarDng();
-        enemigos.forEach((e,i)=>{
-            if(i!=enemigos.length-1){
-                peleaEnemigo(e);
-            }else{
-                peleaJefe(e);
-            }
-        })}
+    for (let i = 0; i < enemigos.length; i++) {
+        const enemigo = enemigos[i];
+        if (i !== enemigos.length - 1) {
+            await peleaEnemigo(enemigo);
+        } else {
+            await peleaJefe(enemigo);
+        }
+    }
+}
 
-function peleaEnemigo (enemigo){
-        
-        cargarImgPelea(enemigo.nombre);
-        console.log(nombre +", un " + enemigo.nombre +" se cruza en tu camino");
-        alert(nombre +", un " + enemigo.nombre +" se cruza en tu camino");
+async function peleaEnemigo(enemigo) {
+    await cargarImgPelea(enemigo.nombre);
+    console.log(nombre + ", un " + enemigo.nombre + " se cruza en tu camino");
+    alert(nombre + ", un " + enemigo.nombre + " se cruza en tu camino");
 
-    // Espera 1 segundo antes de mostrar el alert para cargar la imagen
-    //setTimeout( ()=>{
-        while ((heroe.vida > 0)&& (enemigo.vida>0)){
-            console.log("Atacar al "+ enemigo.nombre);
-            if(heroe.vida<=0){
-                heroe.vida=0;
-            }else{
-                golpeHeroe(10);
-                enemigo.vida -= heroe.daño;
-            }
-            if (enemigo.vida <0){
-                enemigo.vida = 0;
-            }else{
-                golpeEnemigo(enemigo,15,35);
-                heroe.vida-= enemigo.daño;
-            }
-                mostrarVidaHeroe();
-                mostrarVidaEnemigo(enemigo.nombre, enemigo.vida);
-                console.log("---- //// ----");
-                
-            }   
-            if (enemigo.vida <= 0){
-                console.log("Bieh hecho " + nombre +", venciste al " + enemigo.nombre);
-            }else{
-                perdiste();
-            }
-        }//,1000);
-//} 
+    //Promise para que cargue la imagen
+    await new Promise (resolve => {
+        setTimeout(() => {
+            resolve();
+        }, 1000);
+    })
+    while (heroe.vida > 0 && enemigo.vida > 0) {
+        alert("Atacar al " + enemigo.nombre);
+        if (heroe.vida <= 0) {
+            heroe.vida = 0;
+        } else {
+            golpeHeroe(10);
+            enemigo.vida -= heroe.daño;
+        }
+        if (enemigo.vida < 0) {
+            enemigo.vida = 0;
+        } else {
+            golpeEnemigo(enemigo, 15, 35);
+            heroe.vida -= enemigo.daño;
+        }
+        mostrarVidaHeroe();
+        mostrarVidaEnemigo(enemigo.nombre, enemigo.vida);
+        console.log("---- //// ----");
+    }
+    if (enemigo.vida <= 0) {
+        console.log("Buen hecho " + nombre + ", venciste al " + enemigo.nombre);
+    } else {
+        perdiste();
+    }
+}
+
 
 function peleaJefe(nombre){
         console.log("Encuentras la sala del "+ jefe.nombre +" final");
-        cargarImgPelea(jefe.nombre);
-    // Espera 1 segundo antes de mostrar el alert para cargar la imagen
-    setTimeout( ()=>{    
+        cargarImgPelea(jefe.nombre);   
         while(jefe.vida > 0 && heroe.vida > 0){
             console.log(" ---  ACCIONES  --- ");
             console.log("1: Golpear al Jefe");
@@ -218,8 +220,7 @@ function peleaJefe(nombre){
             
             perdiste();
         }
-    },1000);
-}
+    };
 
 ingresarJuego();
 
