@@ -87,6 +87,7 @@ function peleaDng() {
         if (i !== enemigos.length - 1) {
             peleaEnemigo(enemigo);
         } else {
+            console.log("Encuentras la sala del "+ jefe.nombre +" final");
             peleaJefe(enemigo);
         }
     }
@@ -123,7 +124,6 @@ function peleaEnemigo(enemigo) {
 
 
 function peleaJefe(nombre){
-        console.log("Encuentras la sala del "+ jefe.nombre +" final");
 
         while(jefe.vida > 0 && heroe.vida > 0){
             console.log(" ---  ACCIONES  --- ");
@@ -131,6 +131,7 @@ function peleaJefe(nombre){
             console.log("2: Curarte vida");
             console.log("3: Huir de la pelea");
             mostrarVidaHeroe();
+            mostrarVidaEnemigo(jefe.nombre, jefe.vida);
             console.log("---- //// ----");
             let accion = prompt ("Que accion quieres realizar?");
             
@@ -149,7 +150,7 @@ function peleaJefe(nombre){
                         heroe.vida-= jefe.daño;
                     }
                         mostrarVidaHeroe();
-                        mostrarVidaEnemigo("Jefe", jefe.vida);
+                        mostrarVidaEnemigo(jefe.nombre, jefe.vida);
                         console.log("---- //// ----");
                         
                     
@@ -162,6 +163,8 @@ function peleaJefe(nombre){
                     }else{
                         console.log("Ya no tienes mas pociones")
                     }
+                    mostrarVidaHeroe();
+                    mostrarVidaEnemigo(jefe.nombre, jefe.vida);
                     peleaJefe();
                 break;
             case "3":
