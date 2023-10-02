@@ -19,7 +19,6 @@ const enemigos = []
 
 
 function ingresarJuego (){
-    document.body.innerHTML = "";
     confirm("Bienvenido a la Dungeon");
     ingresarNombre();
 }
@@ -49,47 +48,16 @@ function golpeEnemigo (enemigo,MIN,POW){
 }
 
 function huirPelea(){
-    cargarImagen("GameOver.jpg");
     alert("Gracias por jugar");
     ingresarJuego();
 }
 
 function perdiste (){
-    cargarImagen("GameOver.jpg");
     alert("Perdiste");
     alert("Gracias por participar");
-    document.body.innerHTML = "";
     ingresarJuego();
 }
 
-function cargarImgPelea (nombre){
-    document.body.innerHTML = "";
-    let imagen = document.createElement("img");
-    switch(nombre){
-        case "Esqueleto": imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room1.jpg";
-            break;
-        case "Mago": imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room2.jpg";
-            break;
-        case "Arquero": imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room3.jpg";
-            break;
-        case "Slime": imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room4.jpg";
-            break;
-        case "Zombie": imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room5.jpg";
-            break;
-        case "Jefe": imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg";
-            break;
-    }
-    imagen.id = "imagen";
-    document.body.appendChild(imagen);
-}
-
-function cargarImagen (src){
-    document.body.innerHTML = "";
-    let imagen = document.createElement("img");
-    imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/"+ src;
-    imagen.id = "imagen";
-    document.body.appendChild(imagen);
-}
 
 function cargarDng (){
     for (let i = 0; i < 2; i+=1) {
@@ -112,29 +80,22 @@ function cargarDng (){
     enemigos.push(jefe);
 }
 
-async function peleaDng() {
+function peleaDng() {
     cargarDng();
     for (let i = 0; i < enemigos.length; i++) {
         const enemigo = enemigos[i];
         if (i !== enemigos.length - 1) {
-            await peleaEnemigo(enemigo);
+            peleaEnemigo(enemigo);
         } else {
-            await peleaJefe(enemigo);
+            peleaJefe(enemigo);
         }
     }
 }
 
-async function peleaEnemigo(enemigo) {
-    await cargarImgPelea(enemigo.nombre);
+function peleaEnemigo(enemigo) {
     console.log(nombre + ", un " + enemigo.nombre + " se cruza en tu camino");
     alert(nombre + ", un " + enemigo.nombre + " se cruza en tu camino");
 
-    //Promise para que cargue la imagen
-    await new Promise (resolve => {
-        setTimeout(() => {
-            resolve();
-        }, 1000);
-    })
     while (heroe.vida > 0 && enemigo.vida > 0) {
         alert("Atacar al " + enemigo.nombre);
         if (heroe.vida <= 0) {
@@ -161,16 +122,9 @@ async function peleaEnemigo(enemigo) {
 }
 
 
-async function peleaJefe(nombre){
-        await console.log("Encuentras la sala del "+ jefe.nombre +" final");
-        cargarImgPelea(jefe.nombre);   
+function peleaJefe(nombre){
+        console.log("Encuentras la sala del "+ jefe.nombre +" final");
 
-        //Promise para que cargue la imagen
-        await new Promise (resolve => {
-        setTimeout(() => {
-            resolve();
-        }, 1000);
-    })
         while(jefe.vida > 0 && heroe.vida > 0){
             console.log(" ---  ACCIONES  --- ");
             console.log("1: Golpear al Jefe");
@@ -222,7 +176,6 @@ async function peleaJefe(nombre){
         if (jefe.vida <=0){
             console.log("Bieh hecho " + nombre +", venciste al Jefe");
             console.log("Gracias por participar");
-            cargarImagen("win.jpg");
             }else{
             
             perdiste();
