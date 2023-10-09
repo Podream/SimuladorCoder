@@ -1,33 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Coder Dungeon</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div id="izq">
-        <div class="contenedor">
-            <h1 class="hs1">Nombre</h1>
-            <h1 class="hs1">Enemigo</h1>
-        </div>
-        <div class="contenedor">
-            <h1 class="hs">100</h1>
-            <h1 class="hs">200</h1>
-        </div>
-        <div class="contenedor">
-            <img id="imagen" src="https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg" alt="">
-        </div>
-        <div class="contenedor">
-            <button class="btn2">Curar</button>
-            <button class="btn1">Atacar</button>
-            <button class="btn2">Huir</button>
-        </div>
-    </div>
-    <div id="der">
-        <p>Texto pelea</p>
-    </div>
+    <link rel="stylesheet" href="css/style.css" />
+
     <script src="js/main.js" defer></script>
-</body>
+  </head>
+  <body>
+    <div id="mostrarInicio" class="inicio">
+        <div>
+            <img src="" alt="">
+        </div>
+        <div>
+            <input type="text">
+            <button class="btnInicio">Empezar Juego</button>
+        </div>
+        
+    </div>
+    <div id="mostrarJuego" class="juego">
+      <div id="izq">
+        <div class="contenedor">
+          <h1 class="hs1">Nombre</h1>
+          <h1 class="hs1">Enemigo</h1>
+        </div>
+        <div class="contenedor">
+          <h1 class="hs">100</h1>
+          <h1 class="hs">200</h1>
+        </div>
+        <div class="contenedor">
+          <img
+            id="imagen"
+            src="https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg"
+            alt=""
+          />
+        </div>
+        <div class="contenedor">
+          <button class="btnCurar">Curar</button>
+          <button class="btnAtacar">Atacar</button>
+          <button class="btnHuir">Huir</button>
+        </div>
+      </div>
+      <div id="der">
+        <p>Texto pelea</p>
+      </div>
+    </div>
+    
+  </body>
 </html>

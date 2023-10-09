@@ -16,6 +16,11 @@ body {
     margin: 20px 0;
 }
 
+#mostrarJuego{
+    display: none;
+}
+
+
 #izq{
     width: 70%;
 }
