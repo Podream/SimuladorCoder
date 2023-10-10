@@ -27,6 +27,7 @@ const mostrarJuego = document.querySelector("#mostrarJuego");
 const mensajeError = document.querySelector("#mensajeError");
 const vidaHeroe = document.querySelector("#vidaHeroe");
 const vidaEnemigo = document.querySelector("#vidaEnemigo");
+const imagen = document.querySelector("#imagen");
 
 
 function ingresarJuego() {
@@ -34,20 +35,17 @@ function ingresarJuego() {
     nombre = input.value;
       mostrarInicio.style.display = "none";
       mostrarJuego.style.display = "block"; 
+      heroe.vida = 500;
+      peleaDng();
   })
-  heroe.vida = 500;
-  peleaDng();
 }
 
 
 function peleaDng() {
   cargarDng();
-  for (let i = 0; i < enemigos.length; i++) {
-    const enemigo = enemigos[i];
-    if (i !== enemigos.length - 1) {
-      peleaEnemigo(enemigo);
-    } 
-  }
+  enemigos.forEach(async enemigo => {
+    await peleaEnemigo(enemigo);
+  })
 }
 
 function nroRandom (){
@@ -82,44 +80,120 @@ function cargarDng() {
   enemigos.push(jefe);
 }
 
+/* function peleaEnemigo(enemigo) {
+  console.log("Encuentras la sala del " + enemigo.nombre + " final");
+  cargarImgPelea(enemigo.nombre);
+    btnAtacar.addEventListener("click", () => {
+      golpeEnemigo(enemigo);
+    });
+    btnCurar.addEventListener("click", () => {
+        usarPocion();
+      });
+    btnHuir.addEventListener("click", () => {
+        huirPelea();
+      });
+    }
+ */
+/* btnAtacar.addEventListener("click", () => {
+    golpeEnemigo(enemigo);
+  });
+btnCurar.addEventListener("click", () => {
+    usarPocion();
+  });
+btnHuir.addEventListener("click", () => {
+    huirPelea();
+  }); */
+
+/* function peleaEnemigo(enemigo) {
+  console.log("Encuentras la sala del " + enemigo.nombre + " final");
+  cargarImgPelea(enemigo.nombre);
+  while (enemigo.vida > 0 && heroe.vida > 0){
+      return new Promise((resolve, reject) => {
+
+      btnAtacar.addEventListener("click", () => {
+        golpearEnemigo(enemigo);
+        //resolve(); // Resuelve la promesa cuando se hace clic en "Atacar"
+      });
+
+      btnCurar.addEventListener("click", () => {
+        usarPocion();
+        //resolve(); // Resuelve la promesa cuando se hace clic en "Curar"
+      });
+
+      btnHuir.addEventListener("click", () => {
+        huirPelea();
+        //resolve(); // Resuelve la promesa cuando se hace clic en "Huir"
+      });
+    });
+  }
+} */
+
+
 function peleaEnemigo(enemigo) {
   console.log("Encuentras la sala del " + enemigo.nombre + " final");
   cargarImgPelea(enemigo.nombre);
-  let accion;
-  accionesPelea(btnAtacar, btnCurar, btnHuir);
-  while (enemigo.vida > 0 && heroe.vida > 0) {
-    switch (accion) {
-      case "1":
-        golpearEnemigo(enemigo.nombre);
-        break;
-      case "2":
-        usarPocion();
-        break;
-      case "3":
-        huirPelea();
-        break;
-      default:
-        console.log("Accion incorrecta");
+
+  return new Promise((resolve, reject) => {
+    let peleaContinua = true;
+
+    function realizarAccion(accion) {
+      switch (accion) {
+        case "atacar":
+          golpearEnemigo(enemigo);
+          break;
+        case "curar":
+          usarPocion();
+          break;
+        case "huir":
+          huirPelea();
+          break;
+        default:
+          console.error("Acción no reconocida: " + accion);
+      }
     }
-  }
-  if (enemigo.vida <= 0) {
-    restuladoEnemigo(enemigo);
-  } else {
-    resultadoJefe(enemigo);
-  }
+
+    function esperarAccion() {
+      btnAtacar.addEventListener("click", () => {
+        if (peleaContinua) {
+          realizarAccion("atacar");
+          // Puedes agregar lógica adicional aquí si es necesario
+        }
+      });
+
+      btnCurar.addEventListener("click", () => {
+        if (peleaContinua) {
+          realizarAccion("curar");
+          // Puedes agregar lógica adicional aquí si es necesario
+        }
+      });
+
+      btnHuir.addEventListener("click", () => {
+        if (peleaContinua) {
+          realizarAccion("huir");
+          // Puedes agregar lógica adicional aquí si es necesario
+        }
+      });
+    }
+
+    esperarAccion(); // Comienza a esperar la acción del jugador
+
+    // Puedes agregar lógica adicional aquí si es necesario
+
+    // Ejemplo de cómo puedes verificar si la pelea ha terminado
+    // y resolver la promesa en consecuencia:
+    if (enemigo.vida <= 0 || heroe.vida <= 0) {
+      peleaContinua = false;
+      resolve();
+    }
+  });
 }
 
-function accionesPelea(btnAtacar, btnCurar, btnHuir) {
-btnAtacar.addEventListener("click", () => {
-    accion = "1";
-  });
-  btnCurar.addEventListener("click", () => {
-    accion = "2";
-  });
-  btnHuir.addEventListener("click", () => {
-    accion = "3";
-  });
-}
+
+
+
+
+
+
 
 function restuladoEnemigo (enemigo){
   enemigo.vida <= 0 && enemigo.nombre != jefe.nombre ? console.log("Buen hecho " + nombre + ", venciste al " + enemigo.nombre) :perdiste();
@@ -135,9 +209,7 @@ function resultadoJefe (enemigo){
   }
 }
 
-
 function usarPocion() {
-  btnCurar.addEventListener("click", ()=>{
     if (curar <= 2) {
       heroe.vida += 150;
       curar += 1;
@@ -145,19 +217,19 @@ function usarPocion() {
     } else {
       console.log("Ya no tienes mas pociones");
     }
-  });  
 }
 
 function golpearEnemigo(enemigo) {
-  btnAtacar.addEventListener("click", ()=>{
     if (heroe.vida <= 0) {
       heroe.vida = 0;
+      perdiste();
     } else {
       golpeHeroe(10);
       enemigo.vida -= heroe.danio;
     }
-    if (enemigo.vida < 0) {
+    if (enemigo.vida <= 0) {
       enemigo.vida = 0;
+
     } else {
       golpeEnemigo(enemigo, 15, 35);
       heroe.vida -= enemigo.danio;
@@ -165,7 +237,6 @@ function golpearEnemigo(enemigo) {
     mostrarVidaHeroe();
     mostrarVidaEnemigo(enemigo.nombre, enemigo.vida);
     console.log("---- //// ----");
-  });
 }
 
 function mostrarVidaHeroe() {
@@ -187,10 +258,8 @@ function golpeEnemigo(enemigo, MIN, POW) {
 }
 
 function huirPelea() {
-  btnHuir.addEventListener("click", ()=>{
   cargarImagen("GameOver.jpg");
   ingresarJuego();
-  });
 }
 
 function perdiste() {
@@ -199,8 +268,6 @@ function perdiste() {
 }
 
 function cargarImgPelea(nombre) {
-  document.body.innerHTML = "";
-  let imagen = document.createElement("img");
   switch (nombre) {
     case "Esqueleto":
       imagen.src =
@@ -227,8 +294,6 @@ function cargarImgPelea(nombre) {
         "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg";
       break;
   }
-  imagen.id = "imagen";
-  document.body.appendChild(imagen);
 }
 
 function cargarImagen(src) {
