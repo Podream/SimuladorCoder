@@ -24,20 +24,19 @@ const btnInicio = document.querySelector(".btnInicio");
 const input = document.querySelector("input");
 const mostrarInicio = document.querySelector("#mostrarInicio");
 const mostrarJuego = document.querySelector("#mostrarJuego");
+const mensajeError = document.querySelector("#mensajeError");
 
 
 function ingresarJuego() {
   btnInicio.addEventListener("click", () => {
-    const nombre = input.value;
-    console.log("Nombre ingresado:", nombre);
-
-    // Ocultar la pantalla de inicio y mostrar la pantalla del juego
-    mostrarInicio.style.display = "none";
-    mostrarJuego.style.display = "block";
+    nombre = input.value;
+      mostrarInicio.style.display = "none";
+      mostrarJuego.style.display = "block"; 
   })
   heroe.vida = 500;
-  //peleaDng();
+  peleaDng();
 }
+
 
 function peleaDng(enemigos) {
   cargarDng();
@@ -203,16 +202,12 @@ function golpeEnemigo(enemigo, MIN, POW) {
 function huirPelea() {
   btnHuir.addEventListener("click", ()=>{
   cargarImagen("GameOver.jpg");
-  //alert("Gracias por jugar");
   ingresarJuego();
   });
 }
 
 function perdiste() {
   cargarImagen("GameOver.jpg");
-  //alert("Perdiste");
-  //alert("Gracias por participar");
-  document.body.innerHTML = "";
   ingresarJuego();
 }
 

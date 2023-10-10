@@ -10,42 +10,39 @@
   </head>
   <body>
     <div id="mostrarInicio" class="inicio">
-        <div>
-            <img src="" alt="">
-        </div>
-        <div>
-            <input type="text">
-            <button class="btnInicio">Empezar Juego</button>
-        </div>
-        
+      <div >     
+        <input class="input" type="text" placeholder="Ingresar nombre"/>
+        <button class="btnInicio">Empezar Juego</button>
+      </div>
     </div>
     <div id="mostrarJuego" class="juego">
-      <div id="izq">
-        <div class="contenedor">
-          <h1 class="hs1">Nombre</h1>
-          <h1 class="hs1">Enemigo</h1>
+      <div class="contenedor-flex">
+        <div id="izq">
+          <div class="contenedor">
+            <h1 class="hs1">Nombre</h1>
+            <h1 class="hs1">Enemigo</h1>
+          </div>
+          <div class="contenedor">
+            <h1 class="hs">100</h1>
+            <h1 class="hs">200</h1>
+          </div>
+          <div class="contenedor">
+            <img
+              id="imagen"
+              src="https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg"
+              alt=""
+            />
+          </div>
+          <div class="contenedor">
+            <button class="btnCurar">Curar</button>
+            <button class="btnAtacar">Atacar</button>
+            <button class="btnHuir">Huir</button>
+          </div>
         </div>
-        <div class="contenedor">
-          <h1 class="hs">100</h1>
-          <h1 class="hs">200</h1>
+        <div id="der">
+          <p>Texto pelea</p>
         </div>
-        <div class="contenedor">
-          <img
-            id="imagen"
-            src="https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg"
-            alt=""
-          />
-        </div>
-        <div class="contenedor">
-          <button class="btnCurar">Curar</button>
-          <button class="btnAtacar">Atacar</button>
-          <button class="btnHuir">Huir</button>
-        </div>
-      </div>
-      <div id="der">
-        <p>Texto pelea</p>
       </div>
     </div>
-    
   </body>
 </html>
