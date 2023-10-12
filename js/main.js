@@ -17,17 +17,19 @@ const heroe = new Personaje(500, 0, nombre);
 
 const enemigos = [];
 
-const btnAtacar = document.querySelector(".btnAtacar");
-const btnCurar = document.querySelector(".btnCurar");
-const btnHuir = document.querySelector(".btnHuir");
+const btnAtacar = document.querySelector("#btnAtacar");
+const btnCurar = document.querySelector("#btnCurar");
+const btnHuir = document.querySelector("#btnHuir");
 const btnInicio = document.querySelector(".btnInicio");
 const input = document.querySelector("input");
 const mostrarInicio = document.querySelector("#mostrarInicio");
 const mostrarJuego = document.querySelector("#mostrarJuego");
-const mensajeError = document.querySelector("#mensajeError");
-const vidaHeroe = document.querySelector("#vidaHeroe");
-const vidaEnemigo = document.querySelector("#vidaEnemigo");
+let vidaHeroe = document.querySelector("#vidaHeroe");
+let vidaEnemigo = document.querySelector("#vidaEnemigo");
 const imagen = document.querySelector("#imagen");
+const divBtn = document.querySelector("#botones");
+const divReiniciar = document.querySelector("#divReiniciar");
+const btnReiniciar = document.querySelector("#btnReiniciar");
 
 
 function ingresarJuego() {
@@ -37,14 +39,6 @@ function ingresarJuego() {
       mostrarJuego.style.display = "block"; 
       heroe.vida = 500;
       peleaDng();
-  })
-}
-
-
-function peleaDng() {
-  cargarDng();
-  enemigos.forEach(async enemigo => {
-    await peleaEnemigo(enemigo);
   })
 }
 
@@ -80,58 +74,23 @@ function cargarDng() {
   enemigos.push(jefe);
 }
 
-/* function peleaEnemigo(enemigo) {
-  console.log("Encuentras la sala del " + enemigo.nombre + " final");
-  cargarImgPelea(enemigo.nombre);
-    btnAtacar.addEventListener("click", () => {
-      golpeEnemigo(enemigo);
-    });
-    btnCurar.addEventListener("click", () => {
-        usarPocion();
-      });
-    btnHuir.addEventListener("click", () => {
-        huirPelea();
-      });
-    }
- */
-/* btnAtacar.addEventListener("click", () => {
-    golpeEnemigo(enemigo);
-  });
-btnCurar.addEventListener("click", () => {
-    usarPocion();
-  });
-btnHuir.addEventListener("click", () => {
-    huirPelea();
-  }); */
-
-/* function peleaEnemigo(enemigo) {
-  console.log("Encuentras la sala del " + enemigo.nombre + " final");
-  cargarImgPelea(enemigo.nombre);
-  while (enemigo.vida > 0 && heroe.vida > 0){
-      return new Promise((resolve, reject) => {
-
-      btnAtacar.addEventListener("click", () => {
-        golpearEnemigo(enemigo);
-        //resolve(); // Resuelve la promesa cuando se hace clic en "Atacar"
-      });
-
-      btnCurar.addEventListener("click", () => {
-        usarPocion();
-        //resolve(); // Resuelve la promesa cuando se hace clic en "Curar"
-      });
-
-      btnHuir.addEventListener("click", () => {
-        huirPelea();
-        //resolve(); // Resuelve la promesa cuando se hace clic en "Huir"
-      });
-    });
+async function peleaDng() {
+  cargarDng();
+  divBtn.style.display = "flex";
+  divReiniciar.style.display = "none";
+  for (const enemigo of enemigos) {
+    let vidaInicial = enemigo.vida;
+    await peleaEnemigo(enemigo);
+    enemigo.vida = vidaInicial;
   }
-} */
+}
 
-
-function peleaEnemigo(enemigo) {
-  console.log("Encuentras la sala del " + enemigo.nombre + " final");
+async function peleaEnemigo(enemigo) {
   cargarImgPelea(enemigo.nombre);
+  const divDer = document.querySelector("#der");
+  divDer.innerHTML = "";
+  mostrarVidaHeroe(heroe);
+  mostrarVidaEnemigo(enemigo);
 
   return new Promise((resolve, reject) => {
     let peleaContinua = true;
@@ -145,10 +104,22 @@ function peleaEnemigo(enemigo) {
           usarPocion();
           break;
         case "huir":
-          huirPelea();
+          perdiste();
           break;
         default:
           console.error("Acción no reconocida: " + accion);
+      }
+
+      mostrarVidaHeroe(heroe);
+      mostrarVidaEnemigo(enemigo);
+
+      if (enemigo.vida <= 0 || heroe.vida <= 0) {
+        peleaContinua = false;
+      }
+
+      if (!peleaContinua) {
+        chequearEnemigo(enemigo);
+        resolve();
       }
     }
 
@@ -156,99 +127,113 @@ function peleaEnemigo(enemigo) {
       btnAtacar.addEventListener("click", () => {
         if (peleaContinua) {
           realizarAccion("atacar");
-          // Puedes agregar lógica adicional aquí si es necesario
         }
       });
 
       btnCurar.addEventListener("click", () => {
         if (peleaContinua) {
           realizarAccion("curar");
-          // Puedes agregar lógica adicional aquí si es necesario
         }
       });
 
       btnHuir.addEventListener("click", () => {
         if (peleaContinua) {
           realizarAccion("huir");
-          // Puedes agregar lógica adicional aquí si es necesario
         }
       });
     }
+    esperarAccion();
 
-    esperarAccion(); // Comienza a esperar la acción del jugador
-
-    // Puedes agregar lógica adicional aquí si es necesario
-
-    // Ejemplo de cómo puedes verificar si la pelea ha terminado
-    // y resolver la promesa en consecuencia:
-    if (enemigo.vida <= 0 || heroe.vida <= 0) {
-      peleaContinua = false;
-      resolve();
-    }
   });
 }
 
+function mostrarTextoPelea(enemigo, heroe) {
+  const divDer = document.querySelector("#der");
 
+  const pHeroe = document.createElement("p");
+  pHeroe.textContent = `Atacas al ${enemigo.nombre} y su vida es ${enemigo.vida}`
 
+  const pEnemigo = document.createElement("p");
+  pEnemigo.textContent = `El ${enemigo.nombre} te ataca y tu vida es ${heroe.vida}`
 
-
-
-
-
-function restuladoEnemigo (enemigo){
-  enemigo.vida <= 0 && enemigo.nombre != jefe.nombre ? console.log("Buen hecho " + nombre + ", venciste al " + enemigo.nombre) :perdiste();
+  divDer.appendChild(pHeroe);
+  divDer.appendChild(pEnemigo);
 }
 
-function resultadoJefe (enemigo){
-  if (enemigo.vida <= 0) {
-    console.log("Bieh hecho " + nombre + ", venciste al Jefe");
-    console.log("Gracias por participar");
-    cargarImagen("win.jpg");
+function chequearEnemigo (enemigo){
+  if (enemigo.nombre === "Jefe") {
+    if(heroe.vida > 0) {
+      crearP(`¡Venciste al ${enemigo.nombre}! ¡Ganaste el juego!`);
+      cargarImagen("win.jpg");
+    }else{
+      crearP(`Lo siento ${nombre}, el ${enemigo.nombre} te vencio... ¡Suerte la proxima!`);
+      perdiste()
+    }
   } else {
-    perdiste();
+    if(heroe.vida > 0) {
+      crearP(`¡Venciste al ${enemigo.nombre}!`);
+    }else{
+      crearP(`Lo siento ${nombre}, el ${enemigo.nombre} te vencio... ¡Suerte la proxima!`);
+      perdiste()
+    }
   }
 }
 
 function usarPocion() {
-    if (curar <= 2) {
+    if (curar <= 3) {
       heroe.vida += 150;
       curar += 1;
-      console.log("Tomas una pocion y restauras 150 de vida");
+      vidaHeroe.textContent = heroe.vida;
+      crearP("Tomas una pocion y restauras 150 de vida");
+      crearP(`------------------------`);
     } else {
-      console.log("Ya no tienes mas pociones");
+      crearP("Ya no tienes mas pociones");
+      crearP(`------------------------`);
     }
 }
 
+function crearP (texto){
+  const divDer = document.querySelector("#der");
+  const p = document.createElement("p");
+  p.textContent=texto
+  divDer.appendChild(p);
+}
+
 function golpearEnemigo(enemigo) {
-    if (heroe.vida <= 0) {
-      heroe.vida = 0;
-      perdiste();
-    } else {
+    if(heroe.vida > 0){
       golpeHeroe(10);
       enemigo.vida -= heroe.danio;
     }
     if (enemigo.vida <= 0) {
       enemigo.vida = 0;
-
     } else {
       golpeEnemigo(enemigo, 15, 35);
       heroe.vida -= enemigo.danio;
     }
-    mostrarVidaHeroe();
-    mostrarVidaEnemigo(enemigo.nombre, enemigo.vida);
-    console.log("---- //// ----");
+    if (heroe.vida <= 0) {
+      heroe.vida = 0;
+      perdiste();
+    }
+    crearP(`Atacas al ${enemigo.nombre} y su vida es ${enemigo.vida}`);
+    crearP(`El ${enemigo.nombre} te ataca y tu vida es ${heroe.vida}`);
+    crearP(`------------------------`);
 }
 
-function mostrarVidaHeroe() {
-  console.log(nombre + " tienes un total de " + heroe.vida + " de vida");
+function mostrarVidaHeroe(heroe) {
+  vidaHeroe.textContent = heroe.vida;
+  nombreHeroe = document.querySelector("#nombreHeroe")
+  nombreHeroe.textContent = nombre;
 }
 
-function mostrarVidaEnemigo(enemigo, vidaEnemigo) {
-  console.log("La vida del " + enemigo + " es de " + vidaEnemigo);
+function mostrarVidaEnemigo(enemigo) {
+  vidaEnemigo.textContent = enemigo.vida;
+  nombreEnemigo = document.querySelector("#nombreEnemigo")
+  nombreEnemigo.textContent = enemigo.nombre;
 }
+
 
 function golpeHeroe(MIN) {
-  heroe.danio = Math.ceil(Math.random() * 45 + MIN);
+  heroe.danio = Math.ceil(Math.random() * 48 + MIN);
   return heroe.danio;
 }
 
@@ -257,14 +242,29 @@ function golpeEnemigo(enemigo, MIN, POW) {
   return enemigo.danio;
 }
 
-function huirPelea() {
-  cargarImagen("GameOver.jpg");
-  ingresarJuego();
+function reiniciar(){
+  esqueleto.vida = 150;
+  mago.vida = 200;
+  arquero.vida = 180;
+  zombie.vida = 150;
+  slime.vida = 220;
+  jefe.vida = 1000;
+  heroe.vida = 500;
+  curar = 0;
+  enemigos.length = 0;
+  divBtn.style.display = "none";
+  divReiniciar.style.display = "flex";
 }
+
+btnReiniciar.addEventListener("click", () => {
+  reiniciar()
+  peleaDng()
+  });
 
 function perdiste() {
   cargarImagen("GameOver.jpg");
-  ingresarJuego();
+  divBtn.style.display = "none";
+  divReiniciar.style.display = "flex";
 }
 
 function cargarImgPelea(nombre) {
@@ -297,10 +297,6 @@ function cargarImgPelea(nombre) {
 }
 
 function cargarImagen(src) {
-  document.body.innerHTML = "";
-  let imagen = document.createElement("img");
   imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/" + src;
-  imagen.id = "imagen";
-  document.body.appendChild(imagen);
 }
 ingresarJuego();

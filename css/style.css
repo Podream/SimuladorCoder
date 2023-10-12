@@ -7,10 +7,8 @@ body {
     height: 100vh;
 }
 
-#imagen{
-    width: 100%;
-    border: 2px solid#601c69;
-}
+
+
 .inicio {
     display: flex;
     flex-direction: column;
@@ -23,7 +21,6 @@ body {
     background-repeat: no-repeat;
   }
   
-
 .input{
     padding: 10px;
     margin-right: 10px;
@@ -35,12 +32,37 @@ body {
     margin: 10px;
   }
 
-
-.contenedor{
-    display: flex;
-    justify-content: space-around;
-    margin: 20px 0;
+  #imagen{
+    height: 90%;
+    border: 2px solid#601c69;
 }
+
+  #nombres{
+    display: flex;
+    height: 10%;
+    justify-content: space-around;
+  }
+  #vidas{
+    display: flex;
+    height: 15%;
+    justify-content: space-around;
+  }
+  #contenedor-img{
+    display: flex;
+    justify-content: center;
+    height: 60%;
+  }
+  #botones{
+    display: flex;
+    height: 15%;
+    justify-content: space-around;
+  }
+  
+  #divReiniciar{
+    display: none;
+    height: 15%;
+    justify-content: space-around;
+  }
 
 #mostrarJuego{
     display: none;
@@ -67,7 +89,9 @@ body {
 
 
 #izq{
-    width: 70%;
+    width: 60%;
+    display: flex;
+    flex-flow: column;
 }
 
 #der{
@@ -76,12 +100,15 @@ body {
     margin: 10px;
     background-color: #601c694f;
     border-radius: 8px;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 p{
     margin: 10px;
     color: #f7f7f7;
 }
+
 
 button {
     display: inline-block;
