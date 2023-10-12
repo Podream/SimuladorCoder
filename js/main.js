@@ -34,12 +34,25 @@ const btnReiniciar = document.querySelector("#btnReiniciar");
 
 function ingresarJuego() {
   btnInicio.addEventListener("click", () => {
+    
+    if (input.value.trim() !== "") {
     nombre = input.value;
       mostrarInicio.style.display = "none";
       mostrarJuego.style.display = "block"; 
       heroe.vida = 500;
       peleaDng();
+    }
   })
+}
+
+function validarInput (){
+  input.addEventListener("input", () => {
+    if (input.value.trim() === "") {
+      btnInicio.disabled = true;
+    } else {
+      btnInicio.disabled = false;
+    }
+  });
 }
 
 function nroRandom (){
