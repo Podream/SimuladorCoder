@@ -100,7 +100,7 @@ body {
     margin: 10px;
     background-color: #601c694f;
     border-radius: 8px;
-    max-height: 100vh;
+    max-height:75vh;
     overflow-y: auto;
 }
 
@@ -108,7 +108,11 @@ p{
     margin: 10px;
     color: #f7f7f7;
 }
-
+#stats{
+  color: #ffffff;
+  text-align: center;
+  display: none;
+}
 
 button {
     display: inline-block;

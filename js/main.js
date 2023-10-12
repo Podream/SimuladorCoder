@@ -1,5 +1,8 @@
 let nombre = "";
 let curar = 0;
+let victorias = 0;
+let derrotas = 0;
+let pocionesUsadas = 0;
 
 function Personaje(vida, danio, nombre) {
   this.vida = vida;
@@ -177,10 +180,16 @@ function chequearEnemigo (enemigo){
   if (enemigo.nombre === "Jefe") {
     if(heroe.vida > 0) {
       crearP(`¡Venciste al ${enemigo.nombre}! ¡Ganaste el juego!`);
+      victorias += 1;
+      localStorage.setItem("victorias", victorias);
       cargarImagen("win.jpg");
+      mostrarStats();
     }else{
       crearP(`Lo siento ${nombre}, el ${enemigo.nombre} te vencio... ¡Suerte la proxima!`);
+      derrotas += 1;
+      localStorage.setItem("derrotas", derrotas);
       perdiste()
+      mostrarStats();
     }
   } else {
     if(heroe.vida > 0) {
@@ -196,6 +205,8 @@ function usarPocion() {
     if (curar <= 3) {
       heroe.vida += 150;
       curar += 1;
+      pocionesUsadas +=1;
+      localStorage.setItem("pocionesUsadas", pocionesUsadas);
       vidaHeroe.textContent = heroe.vida;
       crearP("Tomas una pocion y restauras 150 de vida");
       crearP(`------------------------`);
@@ -210,6 +221,18 @@ function crearP (texto){
   const p = document.createElement("p");
   p.textContent=texto
   divDer.appendChild(p);
+}
+
+function mostrarStats (){
+  const divDer = document.querySelector("#der");
+  divDer.innerHTML = "";
+  victorias = parseInt(localStorage.getItem("victorias")) || 0;
+  derrotas = parseInt(localStorage.getItem("derrotas")) || 0;
+  pocionesUsadas = parseInt(localStorage.getItem("pocionesUsadas")) || 0;
+  crearP(` -----   STATS   ----- `)
+  crearP(`Victorias: ${victorias}`);
+  crearP(`Derrotas: ${derrotas}`);
+  crearP(`Pocciones utilizadas: ${pocionesUsadas}`);
 }
 
 function golpearEnemigo(enemigo) {
@@ -246,7 +269,7 @@ function mostrarVidaEnemigo(enemigo) {
 
 
 function golpeHeroe(MIN) {
-  heroe.danio = Math.ceil(Math.random() * 48 + MIN);
+  heroe.danio = Math.ceil(Math.random() * 55 + MIN);
   return heroe.danio;
 }
 
@@ -284,7 +307,7 @@ function cargarImgPelea(nombre) {
   switch (nombre) {
     case "Esqueleto":
       imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/room1.jpg";
+        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room1.jpg";
       break;
     case "Mago":
       imagen.src =
