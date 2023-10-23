@@ -1,0 +1,13 @@
+{"jefes": [
+    {
+        "nombre": "Dragon",
+        "vida": 1000,
+        "damage": 0
+    },
+    {
+        "nombre": "Rey Esqueleto",
+        "vida": 1000,
+        "damage": 0
+    }
+]
+}

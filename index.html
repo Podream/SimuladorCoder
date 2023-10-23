@@ -10,12 +10,23 @@
   </head>
   <body>
     <div id="mostrarInicio" class="inicio">
-      <div class="contenedor2">     
-        <input class="input" type="text" placeholder="Ingresar nombre"/>
+      <div class="contenedor2">
+        <input class="input" type="text" placeholder="Ingresar nombre" />
         <button class="btnInicio">Empezar Juego</button>
       </div>
     </div>
     <div id="mostrarJuego" class="juego">
+      <div class="personajes">
+        <div class="box">
+          <img src="Barbaro.jpg" />
+        </div>
+        <div class="box">
+          <img src="Guerrero.jpg" />
+        </div>
+        <div class="box">
+          <img src="Mago.jpg" />
+        </div>
+      </div>
       <div class="contenedor-flex">
         <div id="izq">
           <div id="nombres">
@@ -27,24 +38,18 @@
             <h1 class="hs" id="vidaEnemigo"></h1>
           </div>
           <div id="contenedor-img">
-            <img
-              id="imagen"
-              src=""
-              alt=""
-            />
+            <img id="imagen" src=""/>
           </div>
           <div id="botones">
             <button id="btnCurar">Curar</button>
             <button id="btnAtacar">Atacar</button>
             <button id="btnHuir">Huir</button>
-            
           </div>
           <div id="divReiniciar">
             <button id="btnReiniciar">Reiniciar</button>
           </div>
         </div>
-        <div id="der">
-        </div>
+        <div id="der"></div>
       </div>
     </div>
   </body>

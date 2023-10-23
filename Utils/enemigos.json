@@ -1,0 +1,28 @@
+{"enemigos": [
+    {
+        "nombre": "Hombre Lobo",
+        "vida": 200,
+        "damage": 0
+    },
+    {
+        "nombre": "Minotauro",
+        "vida": 250,
+        "damage": 0
+    },
+    {
+        "nombre": "Orco",
+        "vida": 200,
+        "damage": 0
+    },
+    {
+        "nombre": "Nigromante",
+        "vida": 150,
+        "damage": 0
+    },
+    {
+        "nombre": "Demonio",
+        "vida": 250,
+        "damage": 0
+    }
+]
+}
