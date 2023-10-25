@@ -1,4 +1,4 @@
-{"enemigos": [
+[
     {
         "nombre": "Hombre Lobo",
         "vida": 200,
@@ -25,4 +25,3 @@
         "damage": 0
     }
 ]
-}

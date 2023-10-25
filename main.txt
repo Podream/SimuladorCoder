@@ -18,16 +18,8 @@ const zombie = new Personaje(150, 0, "Zombie");
 const slime = new Personaje(220, 0, "Slime");
 const jefe = new Personaje(1000, 0, "Jefe");
 const heroe = new Personaje(500, 0, nombre);
-*/
-let dataEnemigos = [];
-let dataJefes = [];
-let dataHeroes = [];
-const enemigos = [];
-const jefes = [];
-const heroes = [];
 
-
-
+const enemigos = []; */
 
 const btnAtacar = document.querySelector("#btnAtacar");
 const btnCurar = document.querySelector("#btnCurar");
@@ -48,28 +40,18 @@ fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/heroe
   .then((dataH)=>{
     dataHeroes = dataH;
   })
-  .catch((error) => {
-    console.error("Error al cargar los datos de héroes:", error);
-  });
 
   fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/enemigos.json")
   .then((res)=>res.json())
   .then((dataE)=>{
     dataEnemigos = dataE;
   })
-  .catch((error) => {
-    console.error("Error al cargar los datos de héroes:", error);
-  });
 
   fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/jefes.json")
   .then((res)=>res.json())
   .then((dataJ)=>{
     dataJefes = dataJ;
   })
-  .catch((error) => {
-    console.error("Error al cargar los datos de héroes:", error);
-  });
-
 
 
 
@@ -80,30 +62,86 @@ function ingresarJuego() {
     nombre = input.value;
       mostrarInicio.style.display = "none";
       mostrarJuego.style.display = "block"; 
-      dataHeroes.vida = 500;
+      heroe.vida = 500;
+/*       cargarHeroes();
+      cargarEnemigos();
+      cargarJefes(); */
       peleaDng();
     }
   })
 }
 
+
+
+
+/* let heroeData;
+let enemigoData;
+let jefeData; */
+
+/* async function cargarHeroes() {
+  try {
+    const res = await fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/heroes.json");
+    if (!res.ok) {
+      throw new Error('No se pudo cargar el archivo JSON de héroes.');
+    }
+    const data = await res.json();
+    heroeData = data.heroes;
+  } catch (err) {
+    console.error('Error al cargar los datos de héroes:', err);
+  }
+}
+
+async function cargarEnemigos(){
+  try {
+    const res = await fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/enemigos.json");
+    if (!res.ok) {
+      throw new Error('No se pudo cargar el archivo JSON de enemigos.');
+    }
+    const data = await res.json();
+    enemigoData = data.enemigos;
+  } catch (err) {
+    console.error('Error al cargar los datos de héroes:', err);
+  }
+}
+
+async function cargarJefes(){
+  try {
+    const res = await fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/jefes.json");
+    if (!res.ok) {
+      throw new Error('No se pudo cargar el archivo JSON de jefes.');
+    }
+    const data = await res.json();
+    jefeData = data.jefes;
+  } catch (err) {
+    console.error('Error al cargar los datos de héroes:', err);
+  }
+} */
+
+
+
+function seleccionHeroe (){
+  const divBarbaro = document.querySelector("#barbaro");
+  const divGuerrero = document.querySelector("#guerrero");
+  const divMago = document.querySelector("#mago");
+  divBarbaro.addEventListener
+
+}
+// Agregar un manejador de clic al div "barbaro"
 const divBarbaro = document.querySelector("#barbaro");
-const divGuerrero = document.querySelector("#guerrero");
-const divMago = document.querySelector("#mago");
 divBarbaro.addEventListener("click", () => {
-  heroes = dataHeroes[0]
-  console.log(heroes)
-});
+  if (heroeData) {
+    // Buscar el objeto "Barbaro" en el arreglo de héroes y asignarlo a una variable
+    const barbaroHeroe = heroeData.find((heroe) => heroe.nombre === "Barbaro");
+    
+    // Ahora tienes el objeto "Barbaro" en la variable "barbaroHeroe"
+    console.log('Datos del héroe Barbaro:', barbaroHeroe);
+  } else if (heroeData) {
+    const guerreroHeroe = heroeData.find((heroe) => heroe.nombre === "Guerrero");
+    console.log('Los datos de héroes aún no se han cargado.');
+  } else {
 
-divGuerrero.addEventListener("click", () => {
-  heroes = dataHeroes[1]
-  console.log(heroes)
+  }
 });
-
-divMago.addEventListener("click", () => {
-  heroes = dataHeroes[2]
-  console.log(heroes)
-});
-
 
 
 
@@ -127,19 +165,28 @@ function cargarDng() {
   const x = nroRandom();
   for (let i = 0; i < x; i += 1) {
     const enemigoRandom = nroRandom();
-    const encuentro = dataEnemigos[enemigoRandom];
+    let encuentro;
+    switch (enemigoRandom) {
+      case 1:
+        encuentro = esqueleto;
+        break;
+      case 2:
+        encuentro = mago;
+        break;
+      case 3:
+        encuentro = arquero;
+        break;
+      case 4:
+        encuentro = slime;
+        break;
+      case 5:
+        encuentro = zombie;
+        break;
+    }
     enemigos.push(encuentro);
   }
-  cargarJefe();
+  enemigos.push(jefe);
 }
-
-function cargarJefe (){
-  const x = Math.floor(Math.random() * 2);
-  console.log(x);
-  const jefe = dataJefes[x];
-  jefes.push(jefe);
-}
-
 
 async function peleaDng() {
   cargarDng();
@@ -156,8 +203,8 @@ async function peleaEnemigo(enemigo) {
   cargarImgPelea(enemigo.nombre);
   const divDer = document.querySelector("#der");
   divDer.innerHTML = "";
-  mostrarVidaHeroe(dataHeroes);
-  mostrarVidaEnemigo(dataEnemigos);
+  mostrarVidaHeroe(heroe);
+  mostrarVidaEnemigo(enemigo);
 
   return new Promise((resolve, reject) => {
     let peleaContinua = true;
@@ -165,7 +212,7 @@ async function peleaEnemigo(enemigo) {
     function realizarAccion(accion) {
       switch (accion) {
         case "atacar":
-          golpearEnemigo(dataEnemigos);
+          golpearEnemigo(enemigo);
           break;
         case "curar":
           usarPocion();
@@ -180,7 +227,7 @@ async function peleaEnemigo(enemigo) {
       mostrarVidaHeroe(heroe);
       mostrarVidaEnemigo(enemigo);
 
-      if (dataEnemigos.vida <= 0 || dataHeroes.vida <= 0) {
+      if (enemigo.vida <= 0 || heroe.vida <= 0) {
         peleaContinua = false;
       }
 
@@ -214,14 +261,14 @@ async function peleaEnemigo(enemigo) {
   });
 }
 
-function mostrarTextoPelea(dataEnemigos, dataHeroes) {
+function mostrarTextoPelea(enemigo, heroe) {
   const divDer = document.querySelector("#der");
 
   const pHeroe = document.createElement("p");
-  pHeroe.textContent = `Atacas al ${dataEnemigos.nombre} y su vida es ${dataEnemigos.vida}`
+  pHeroe.textContent = `Atacas al ${enemigo.nombre} y su vida es ${enemigo.vida}`
 
   const pEnemigo = document.createElement("p");
-  pEnemigo.textContent = `El ${dataEnemigos.nombre} te ataca y tu vida es ${dataHeroes.vida}`
+  pEnemigo.textContent = `El ${enemigo.nombre} te ataca y tu vida es ${heroe.vida}`
 
   divDer.appendChild(pHeroe);
   divDer.appendChild(pEnemigo);
@@ -287,18 +334,18 @@ function mostrarStats (){
 }
 
 function golpearEnemigo(enemigo) {
-    if(dataHeroes.vida > 0){
+    if(heroe.vida > 0){
       golpeHeroe(10);
-      enemigo.vida -= dataHeroes.damage;
+      enemigo.vida -= heroe.danio;
     }
     if (enemigo.vida <= 0) {
       enemigo.vida = 0;
     } else {
       golpeEnemigo(enemigo, 15, 35);
-      dataHeroes.vida -= enemigo.danio;
+      heroe.vida -= enemigo.danio;
     }
-    if (dataHeroes.vida <= 0) {
-      dataHeroes.vida = 0;
+    if (heroe.vida <= 0) {
+      heroe.vida = 0;
       perdiste();
     }
     crearP(`Atacas al ${enemigo.nombre} y su vida es ${enemigo.vida}`);
@@ -306,40 +353,28 @@ function golpearEnemigo(enemigo) {
     crearP(`------------------------`);
 }
 
-function mostrarVidaHeroe(dataHeroes) {
-  vidaHeroe.textContent = dataHeroes.vida;
+function mostrarVidaHeroe(heroe) {
+  vidaHeroe.textContent = heroe.vida;
   nombreHeroe = document.querySelector("#nombreHeroe")
   nombreHeroe.textContent = nombre;
 }
 
-function mostrarVidaEnemigo(dataEnemigos) {
-  vidaEnemigo.textContent = dataEnemigos.vida;
+function mostrarVidaEnemigo(enemigo) {
+  vidaEnemigo.textContent = enemigo.vida;
   nombreEnemigo = document.querySelector("#nombreEnemigo")
-  nombreEnemigo.textContent = dataEnemigos.nombre;
-}
-
-function mostrarVidaJefe(dataJefes) {
-  vidaEnemigo.textContent = dataJefes.vida;
-  nombreEnemigo = document.querySelector("#nombreEnemigo")
-  nombreEnemigo.textContent = dataJefes.nombre;
+  nombreEnemigo.textContent = enemigo.nombre;
 }
 
 
 function golpeHeroe(MIN) {
-  dataHeroes.damage = Math.ceil(Math.random() * 55 + MIN);
-  return dataHeroes.damage;
+  heroe.danio = Math.ceil(Math.random() * 55 + MIN);
+  return heroe.danio;
 }
 
-function golpeEnemigo(dataEnemigos, MIN, POW) {
-  dataEnemigos.damage = Math.ceil(Math.random() * POW + MIN);
-  return dataEnemigos.damage;
+function golpeEnemigo(enemigo, MIN, POW) {
+  enemigo.danio = Math.ceil(Math.random() * POW + MIN);
+  return enemigo.danio;
 }
-
-function golpeJefe(dataJefes, MIN, POW) {
-  dataJefes.damage = Math.ceil(Math.random() * POW + MIN);
-  return dataJefes.damage;
-}
-
 
 function reiniciar(){
   esqueleto.vida = 150;
@@ -368,31 +403,27 @@ function perdiste() {
 
 function cargarImgPelea(nombre) {
   switch (nombre) {
-    case "Hombre Lobo":
+    case "Esqueleto":
       imagen.src =
         "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room1.jpg";
       break;
-    case "Minotauro":
+    case "Mago":
       imagen.src =
         "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room2.jpg";
       break;
-    case "Orco":
+    case "Arquero":
       imagen.src =
         "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room3.jpg";
       break;
-    case "Nigromante":
+    case "Slime":
       imagen.src =
         "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room4.jpg";
       break;
-    case "Demonio":
+    case "Zombie":
       imagen.src =
         "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room5.jpg";
       break;
-    case "Dragon":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg";
-      break;
-    case "Rey Esqueleto":
+    case "Jefe":
       imagen.src =
         "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg";
       break;

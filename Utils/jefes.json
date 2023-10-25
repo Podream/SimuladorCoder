@@ -1,4 +1,4 @@
-{"jefes": [
+[
     {
         "nombre": "Dragon",
         "vida": 1000,
@@ -10,4 +10,3 @@
         "damage": 0
     }
 ]
-}
