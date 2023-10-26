@@ -5,6 +5,8 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
+  background: rgb(0,0,0);
+  background: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(72,0,111,1) 30%, rgba(72,0,111,1) 70%, rgba(0,0,0,1) 100%);
 }
 
 .inicio {
@@ -13,10 +15,6 @@ body {
   align-items: center;
   justify-content: flex-end;
   height: 100vh;
-  background-image: url("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/Coder%20Dungeon.jpg");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 }
 
 .input {
@@ -89,7 +87,7 @@ body {
 #contenedor-img {
   display: flex;
   justify-content: center;
-  height: 60%;
+  height: 70%;
 }
 #botones {
   display: flex;
@@ -113,11 +111,18 @@ body {
   width: 100%;
   max-width: 100%;
   height: 100%;
-  background-image: url("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/Coder%20Dungeon.jpg");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
 }
+.contenedor2{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.contenedor3{
+  text-align: center;
+}
+
+
 .contenedor-flex {
   display: none;
   justify-content: space-between;
@@ -135,10 +140,10 @@ body {
   width: 30%;
   border: 2px solid#601c69;
   margin: 10px;
-  background-color: #601c694f;
   border-radius: 8px;
   max-height: 75vh;
   overflow-y: auto;
+  text-align: center;
 }
 
 p {
@@ -154,8 +159,8 @@ p {
 button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #601c69;
-  border: 2px solid #000;
+  background-image: linear-gradient(to right, #AA076B 0%, #61045F  51%, #AA076B  100%);
+  border: 3px solid #000;
   color: #ffffff;
   text-align: center;
   text-decoration: none;
@@ -169,7 +174,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #601c69;
+  background-image: linear-gradient(to right, #AA076B 0%, #61045F  51%, #AA076B  100%);
   border: 2px solid#000000;
   color: #f7f5f5;
   font-size: 30px;

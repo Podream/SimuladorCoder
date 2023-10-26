@@ -4,30 +4,11 @@ let victorias = 0;
 let derrotas = 0;
 let pocionesUsadas = 0;
 
-
-/* function Personaje(vida, danio, nombre) {
-  this.vida = vida;
-  this.danio = danio;
-  this.nombre = nombre;
-}
-
-const esqueleto = new Personaje(150, 0, "Esqueleto");
-const mago = new Personaje(200, 0, "Mago");
-const arquero = new Personaje(180, 0, "Arquero");
-const zombie = new Personaje(150, 0, "Zombie");
-const slime = new Personaje(220, 0, "Slime");
-const jefe = new Personaje(1000, 0, "Jefe");
-const heroe = new Personaje(500, 0, nombre);
-*/
 let dataEnemigos = [];
 let dataJefes = [];
 let dataHeroes = [];
 const enemigos = [];
-const jefes = [];
-const heroes = [];
-
-
-
+let heroes = [];
 
 const btnAtacar = document.querySelector("#btnAtacar");
 const btnCurar = document.querySelector("#btnCurar");
@@ -42,6 +23,11 @@ const imagen = document.querySelector("#imagen");
 const divBtn = document.querySelector("#botones");
 const divReiniciar = document.querySelector("#divReiniciar");
 const btnReiniciar = document.querySelector("#btnReiniciar");
+const seleccion = document.querySelector(".seleccion");
+const contenedorFlex = document.querySelector(".contenedor-flex");
+
+
+
 
 fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/heroes.json")
   .then((res)=>res.json())
@@ -70,12 +56,36 @@ fetch("https://raw.githubusercontent.com/Podream/SimuladorCoder/main/Utils/heroe
     console.error("Error al cargar los datos de héroes:", error);
   });
 
-
-
-
-function ingresarJuego() {
-  btnInicio.addEventListener("click", () => {
+async function seleccionHeroe() {
+  return new Promise((resolve, reject) => {
+    const divBarbaro = document.querySelector("#barbaro");
+    const divGuerrero = document.querySelector("#guerrero");
+    const divMago = document.querySelector("#mago");
+    divBarbaro.addEventListener("click", () => {
+      heroes = dataHeroes[0]
+        seleccion.style.display = "none";
+        contenedorFlex.style.display = "flex"; 
+        resolve();
+    });
     
+    divGuerrero.addEventListener("click", () => {
+      heroes = dataHeroes[2]
+      seleccion.style.display = "none";
+      contenedorFlex.style.display = "flex"; 
+      resolve();
+    });
+    
+    divMago.addEventListener("click", () => {
+      heroes = dataHeroes[1]
+      seleccion.style.display = "none";
+      contenedorFlex.style.display = "flex"; 
+      resolve();
+    });
+  });
+}
+
+async function ingresarJuego() {
+  btnInicio.addEventListener("click", () => {
     if (input.value.trim() !== "") {
     nombre = input.value;
       mostrarInicio.style.display = "none";
@@ -85,28 +95,6 @@ function ingresarJuego() {
     }
   })
 }
-
-const divBarbaro = document.querySelector("#barbaro");
-const divGuerrero = document.querySelector("#guerrero");
-const divMago = document.querySelector("#mago");
-divBarbaro.addEventListener("click", () => {
-  heroes = dataHeroes[0]
-  console.log(heroes)
-});
-
-divGuerrero.addEventListener("click", () => {
-  heroes = dataHeroes[1]
-  console.log(heroes)
-});
-
-divMago.addEventListener("click", () => {
-  heroes = dataHeroes[2]
-  console.log(heroes)
-});
-
-
-
-
 
 function validarInput (){
   input.addEventListener("input", () => {
@@ -135,29 +123,28 @@ function cargarDng() {
 
 function cargarJefe (){
   const x = Math.floor(Math.random() * 2);
-  console.log(x);
-  const jefe = dataJefes[x];
-  jefes.push(jefe);
+  enemigos.push(dataJefes[x]);
 }
 
 
 async function peleaDng() {
+  await seleccionHeroe();
   cargarDng();
   divBtn.style.display = "flex";
   divReiniciar.style.display = "none";
   for (const enemigo of enemigos) {
-    let vidaInicial = enemigo.vida;
+    let vidaInicial = enemigos.vida;
     await peleaEnemigo(enemigo);
     enemigo.vida = vidaInicial;
   }
 }
 
 async function peleaEnemigo(enemigo) {
-  cargarImgPelea(enemigo.nombre);
+  cargarImgPelea(heroes.nombre, enemigo.nombre);
   const divDer = document.querySelector("#der");
   divDer.innerHTML = "";
-  mostrarVidaHeroe(dataHeroes);
-  mostrarVidaEnemigo(dataEnemigos);
+  mostrarVidaHeroe(heroes);
+  mostrarVidaEnemigo(enemigo);
 
   return new Promise((resolve, reject) => {
     let peleaContinua = true;
@@ -165,7 +152,7 @@ async function peleaEnemigo(enemigo) {
     function realizarAccion(accion) {
       switch (accion) {
         case "atacar":
-          golpearEnemigo(dataEnemigos);
+          golpearEnemigo(enemigo);
           break;
         case "curar":
           usarPocion();
@@ -177,10 +164,10 @@ async function peleaEnemigo(enemigo) {
           console.error("Acción no reconocida: " + accion);
       }
 
-      mostrarVidaHeroe(heroe);
+      mostrarVidaHeroe(heroes);
       mostrarVidaEnemigo(enemigo);
 
-      if (dataEnemigos.vida <= 0 || dataHeroes.vida <= 0) {
+      if (enemigo.vida <= 0 || heroes.vida <= 0) {
         peleaContinua = false;
       }
 
@@ -214,14 +201,14 @@ async function peleaEnemigo(enemigo) {
   });
 }
 
-function mostrarTextoPelea(dataEnemigos, dataHeroes) {
+function mostrarTextoPelea(enemigo, heroes) {
   const divDer = document.querySelector("#der");
 
   const pHeroe = document.createElement("p");
-  pHeroe.textContent = `Atacas al ${dataEnemigos.nombre} y su vida es ${dataEnemigos.vida}`
+  pHeroe.textContent = `Atacas al ${enemigo.nombre} y su vida es ${enemigo.vida}`
 
   const pEnemigo = document.createElement("p");
-  pEnemigo.textContent = `El ${dataEnemigos.nombre} te ataca y tu vida es ${dataHeroes.vida}`
+  pEnemigo.textContent = `El ${enemigo.nombre} te ataca y tu vida es ${heroes.vida}`
 
   divDer.appendChild(pHeroe);
   divDer.appendChild(pEnemigo);
@@ -229,8 +216,8 @@ function mostrarTextoPelea(dataEnemigos, dataHeroes) {
 
 function chequearEnemigo (enemigo){
   if (enemigo.nombre === "Jefe") {
-    if(heroe.vida > 0) {
-      crearP(`¡Venciste al ${enemigo.nombre}! ¡Ganaste el juego!`);
+    if(heroes.vida > 0) {
+      crearP(`¡Venciste al ${enemigos.nombre}! ¡Ganaste el juego!`);
       victorias += 1;
       localStorage.setItem("victorias", victorias);
       cargarImagen("win.jpg");
@@ -243,10 +230,10 @@ function chequearEnemigo (enemigo){
       mostrarStats();
     }
   } else {
-    if(heroe.vida > 0) {
+    if(heroes.vida > 0) {
       crearP(`¡Venciste al ${enemigo.nombre}!`);
     }else{
-      crearP(`Lo siento ${nombre}, el ${enemigo.nombre} te vencio... ¡Suerte la proxima!`);
+      crearP(`Lo siento ${nombre}, el ${enemigos.nombre} te vencio... ¡Suerte la proxima!`);
       perdiste()
     }
   }
@@ -254,7 +241,7 @@ function chequearEnemigo (enemigo){
 
 function usarPocion() {
     if (curar <= 3) {
-      heroe.vida += 150;
+      heroes.vida += 150;
       curar += 1;
       pocionesUsadas +=1;
       localStorage.setItem("pocionesUsadas", pocionesUsadas);
@@ -306,22 +293,22 @@ function golpearEnemigo(enemigo) {
     crearP(`------------------------`);
 }
 
-function mostrarVidaHeroe(dataHeroes) {
-  vidaHeroe.textContent = dataHeroes.vida;
+function mostrarVidaHeroe(heroes) {
+  vidaHeroe.textContent = heroes.vida;
   nombreHeroe = document.querySelector("#nombreHeroe")
   nombreHeroe.textContent = nombre;
 }
 
-function mostrarVidaEnemigo(dataEnemigos) {
-  vidaEnemigo.textContent = dataEnemigos.vida;
+function mostrarVidaEnemigo(enemigos) {
+  vidaEnemigo.textContent = enemigos.vida;
   nombreEnemigo = document.querySelector("#nombreEnemigo")
-  nombreEnemigo.textContent = dataEnemigos.nombre;
+  nombreEnemigo.textContent = enemigos.nombre;
 }
 
-function mostrarVidaJefe(dataJefes) {
-  vidaEnemigo.textContent = dataJefes.vida;
+function mostrarVidaJefe(jefes) {
+  vidaEnemigo.textContent = jefes.vida;
   nombreEnemigo = document.querySelector("#nombreEnemigo")
-  nombreEnemigo.textContent = dataJefes.nombre;
+  nombreEnemigo.textContent = jefes.nombre;
 }
 
 
@@ -366,40 +353,40 @@ function perdiste() {
   divReiniciar.style.display = "flex";
 }
 
-function cargarImgPelea(nombre) {
-  switch (nombre) {
-    case "Hombre Lobo":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room1.jpg";
-      break;
-    case "Minotauro":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room2.jpg";
-      break;
-    case "Orco":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room3.jpg";
-      break;
-    case "Nigromante":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room4.jpg";
-      break;
-    case "Demonio":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/Room5.jpg";
-      break;
-    case "Dragon":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg";
-      break;
-    case "Rey Esqueleto":
-      imagen.src =
-        "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/BossRoom.jpg";
-      break;
+function cargarImgPelea(heroe, enemigo) {
+  const encuentroKey = `${heroe}_${enemigo}`;
+  const imagenesEncuentro = {
+    "Barbaro_Hombre Lobo": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/BHL.jpg",
+    "Barbaro_Minotauro": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/BM.jpg",
+    "Barbaro_Orco": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/BO.jpg",
+    "Barbaro_Demonio": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/BD.jpg",
+    "Barbaro_Nigromante": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/BN.jpg",
+    "Barbaro_Dragon": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/BDR.jpg",
+    "Barbaro_Rey Esqueleto": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/BRE.jpg",
+
+    "Guerrero_Hombre Lobo": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/GHL.jpg",
+    "Guerrero_Minotauro": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/GM.jpg",
+    "Guerrero_Orco": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/GO.jpg",
+    "Guerrero_Demonio": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/GD.jpg",
+    "Guerrero_Nigromante": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/GN.jpg",
+    "Guerrero_Dragon": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/GDR.jpg",
+    "Guerrero_Rey Esqueleto": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/GRE.jpg",
+    
+    "Mago_Hombre Lobo": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/MHL.jpg",
+    "Mago_Minotauro": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/MM.jpg",
+    "Mago_Orco": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/MO.jpg",
+    "Mago_Demonio": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/MD.jpg",
+    "Mago_Nigromante": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/MN.jpg",
+    "Mago_Dragon": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/MDR.jpg",
+    "Mago_Rey Esqueleto": "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/MRE.jpg",
+
+  };
+  if (encuentroKey in imagenesEncuentro) {
+    imagen.src = imagenesEncuentro[encuentroKey];
   }
 }
 
 function cargarImagen(src) {
-  imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/assets/" + src;
+  imagen.src = "https://raw.githubusercontent.com/Podream/SimuladorCoder/main/images/" + src;
 }
 ingresarJuego();
