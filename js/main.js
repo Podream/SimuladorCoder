@@ -215,9 +215,9 @@ function mostrarTextoPelea(enemigo, heroes) {
 }
 
 function chequearEnemigo (enemigo){
-  if (enemigo.nombre === "Jefe") {
+  if (enemigo.nombre.inclues("Dragon") || enemigo.nombre.includes("Rey Esqueleto")  ) {
     if(heroes.vida > 0) {
-      crearP(`¡Venciste al ${enemigos.nombre}! ¡Ganaste el juego!`);
+      crearP(`¡Venciste al ${enemigo.nombre}! ¡Ganaste el juego!`);
       victorias += 1;
       localStorage.setItem("victorias", victorias);
       cargarImagen("win.jpg");
@@ -233,7 +233,7 @@ function chequearEnemigo (enemigo){
     if(heroes.vida > 0) {
       crearP(`¡Venciste al ${enemigo.nombre}!`);
     }else{
-      crearP(`Lo siento ${nombre}, el ${enemigos.nombre} te vencio... ¡Suerte la proxima!`);
+      crearP(`Lo siento ${nombre}, el ${enemigo.nombre} te vencio... ¡Suerte la proxima!`);
       perdiste()
     }
   }
@@ -274,23 +274,33 @@ function mostrarStats (){
 }
 
 function golpearEnemigo(enemigo) {
-    if(dataHeroes.vida > 0){
+    if(heroes.vida > 0){
       golpeHeroe(10);
-      enemigo.vida -= dataHeroes.damage;
+      enemigo.vida -= heroes.damage;
     }
     if (enemigo.vida <= 0) {
       enemigo.vida = 0;
     } else {
       golpeEnemigo(enemigo, 15, 35);
-      dataHeroes.vida -= enemigo.danio;
+      heroes.vida -= enemigo.damage;
     }
-    if (dataHeroes.vida <= 0) {
-      dataHeroes.vida = 0;
+    if (heroes.vida <= 0) {
+      heroes.vida = 0;
       perdiste();
     }
     crearP(`Atacas al ${enemigo.nombre} y su vida es ${enemigo.vida}`);
-    crearP(`El ${enemigo.nombre} te ataca y tu vida es ${heroe.vida}`);
+    crearP(`El ${enemigo.nombre} te ataca y tu vida es ${heroes.vida}`);
     crearP(`------------------------`);
+}
+
+function golpeHeroe(MIN) {
+  dataHeroes.damage = Math.ceil(Math.random() * heroes.damage + MIN);
+  return dataHeroes.damage;
+}
+
+function golpeEnemigo(enemigo, MIN, POW) {
+  enemigo.damage = Math.ceil(Math.random() * POW + MIN);
+  return enemigo.damage;
 }
 
 function mostrarVidaHeroe(heroes) {
@@ -304,29 +314,6 @@ function mostrarVidaEnemigo(enemigos) {
   nombreEnemigo = document.querySelector("#nombreEnemigo")
   nombreEnemigo.textContent = enemigos.nombre;
 }
-
-function mostrarVidaJefe(jefes) {
-  vidaEnemigo.textContent = jefes.vida;
-  nombreEnemigo = document.querySelector("#nombreEnemigo")
-  nombreEnemigo.textContent = jefes.nombre;
-}
-
-
-function golpeHeroe(MIN) {
-  dataHeroes.damage = Math.ceil(Math.random() * 55 + MIN);
-  return dataHeroes.damage;
-}
-
-function golpeEnemigo(dataEnemigos, MIN, POW) {
-  dataEnemigos.damage = Math.ceil(Math.random() * POW + MIN);
-  return dataEnemigos.damage;
-}
-
-function golpeJefe(dataJefes, MIN, POW) {
-  dataJefes.damage = Math.ceil(Math.random() * POW + MIN);
-  return dataJefes.damage;
-}
-
 
 function reiniciar(){
   esqueleto.vida = 150;
