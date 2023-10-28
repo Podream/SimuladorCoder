@@ -16,16 +16,23 @@ body {
   justify-content: flex-end;
   height: 100vh;
 }
-
+.inp-btn{
+  display: flex;
+  justify-content: space-around;
+}
 .input {
-  padding: 10px;
-  margin-right: 10px;
-  width: 300px;
+  padding: 0 10px;
+  width: 40%;
+  margin: 10px 0;
+  border-radius: 12px;
+  color: #AA076B;
+  font-size: 1.5rem;
+  border: solid 3px;;
 }
 
 .btnInicio {
   padding: 10px 20px;
-  margin: 10px;
+  margin: 10px 0;
 }
 
 #imagen {
@@ -34,9 +41,9 @@ body {
 }
 
 .seleccion {
-  display: flex;
-  
+  display: none;
   flex-flow: column;
+  width: 100%;
 }
 .personajes {
   display: flex;
@@ -51,16 +58,14 @@ body {
 }
 
 .box {
-  padding: 5px;
-  border: 2px solid #601c69;
-  background-color: #601c694f;
-  border-radius: 8px;
-  flex: 0 0 25%;
-  margin: 10px;
+  width: 30%;
+  height: 600px;
+  display: flex;
+  justify-content: center;
 }
 .box img{
-  width: 100%;
-  height: auto; 
+  border-radius: 15px;
+  border: 4px solid #601c69;
 }
 .hSeleccion{
   display: flex;
@@ -71,7 +76,7 @@ body {
   border-radius: 12px;
   height: 60px;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 #nombres {
@@ -87,11 +92,10 @@ body {
 #contenedor-img {
   display: flex;
   justify-content: center;
-  height: 70%;
+  height: 60%;
 }
 #botones {
   display: flex;
-  height: 15%;
   justify-content: space-around;
 }
 
@@ -101,13 +105,8 @@ body {
   justify-content: space-around;
 }
 
-#mostrarJuego {
-  display: none;
-  width: 100%;
-  max-width: 100%;
-  height: 100%;
-}
 #mostrarInicio {
+  display: flex;
   width: 100%;
   max-width: 100%;
   height: 100%;
@@ -137,11 +136,11 @@ body {
 }
 
 #der {
-  width: 30%;
+  width: 40%;
   border: 2px solid#601c69;
   margin: 10px;
   border-radius: 8px;
-  max-height: 75vh;
+  max-height: 90vh;
   overflow-y: auto;
   text-align: center;
 }
@@ -157,39 +156,34 @@ p {
 }
 
 button {
-  display: inline-block;
   padding: 10px 20px;
   background-image: linear-gradient(to right, #AA076B 0%, #61045F  51%, #AA076B  100%);
-  border: 3px solid #000;
   color: #ffffff;
   text-align: center;
-  text-decoration: none;
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  font-size: 35px;
+  font-size: 2rem;
 }
 
-.hs {
+.vidas {
   display: flex;
   align-items: center;
   justify-content: center;
   background-image: linear-gradient(to right, #AA076B 0%, #61045F  51%, #AA076B  100%);
   border: 2px solid#000000;
   color: #f7f5f5;
-  font-size: 30px;
+  font-size: 2.5rem;
   border-radius: 12px;
-  height: 60px;
-  width: 100px;
-  margin: 0 auto;
+  margin: auto;
+  padding: 15px 40px;
 }
-.hs1 {
+.nombres {
   display: flex;
   align-items: center;
   justify-content: center;
   color: #f7f5f5;
-  font-size: 30px;
-  height: 60px;
-  width: 100px;
-  margin: 0 auto;
+  font-size: 2rem;
+  margin: auto;
+  width: 50%;
 }

@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="css/style.css" />
     
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js" defer></script>
     <script src="js/main.js" defer></script>
   </head>
@@ -23,7 +22,6 @@
         </div>
       </div>
     </div>
-    <div id="mostrarJuego" class="juego">
       <div class="seleccion">
         <h1 class="hSeleccion">Selecciona tu Heroe</h1>
         <div class="personajes">
@@ -47,20 +45,17 @@
       <div class="contenedor-flex">
         <div id="izq">
           <div id="nombres">
-            <h1 class="hs1" id="nombreHeroe"></h1>
-            <h1 class="hs1" id="nombreEnemigo"></h1>
+            <h1 class="nombres" id="nombreHeroe"></h1>
+            <h1 class="nombres" id="nombreEnemigo"></h1>
           </div>
           <div id="vidas">
-            <h1 class="hs" id="vidaHeroe"></h1>
-            <h1 class="hs" id="vidaEnemigo"></h1>
+            <h1 class="vidas" id="vidaHeroe"></h1>
+            <h1 class="vidas" id="vidaEnemigo"></h1>
           </div>
           <div id="contenedor-img">
             <img id="imagen" src="" />
           </div>
           <div id="botones">
-            <button id="btnCurar">Curar</button>
-            <button id="btnAtacar">Atacar</button>
-            <button id="btnHuir">Huir</button>
           </div>
           <div id="divReiniciar">
             <button id="btnReiniciar">Reiniciar</button>
@@ -68,6 +63,5 @@
         </div>
         <div id="der"></div>
       </div>
-    </div>
   </body>
 </html>
